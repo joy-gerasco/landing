@@ -44,8 +44,6 @@
     .sparkle {
       position: absolute;
       pointer-events: none;
-      width: 16px;
-      height: 16px;
       animation: sparkle-fade 1s ease-out forwards;
       transform-origin: center;
     }
@@ -69,28 +67,34 @@
   </div>
 
   <script>
-    const starSVG = `
-      <svg viewBox="0 0 24 24" fill="none">
-        <path fill="#f9a8d4" d="M12 2l2.09 6.26L20 9.27l-5 4.87L16.18 22 12 18.56 7.82 22 9 14.14 4 9.27l5.91-.99L12 2z"/>
-      </svg>
-    `;
+    function createStar(size, x, y) {
+      const svgNS = "http://www.w3.org/2000/svg";
+      const svg = document.createElementNS(svgNS, "svg");
+      svg.setAttribute("viewBox", "0 0 24 24");
+      svg.setAttribute("width", size);
+      svg.setAttribute("height", size);
+      svg.style.position = "absolute";
+      svg.style.left = `${x}px`;
+      svg.style.top = `${y}px`;
+      svg.classList.add("sparkle");
+
+      const path = document.createElementNS(svgNS, "path");
+      path.setAttribute("fill", "#f9a8d4");
+      path.setAttribute("d", "M12 2l2.09 6.26L20 9.27l-5 4.87L16.18 22 12 18.56 7.82 22 9 14.14 4 9.27l5.91-.99L12 2z");
+
+      svg.appendChild(path);
+      document.body.appendChild(svg);
+
+      setTimeout(() => {
+        svg.remove();
+      }, 1000);
+    }
 
     document.addEventListener("mousemove", (e) => {
-      const sparkle = document.createElement("div");
-      sparkle.classList.add("sparkle");
-      sparkle.innerHTML = starSVG;
-      document.body.appendChild(sparkle);
-
       const size = Math.random() * 8 + 8; // 8px to 16px
-      sparkle.style.width = `${size}px`;
-      sparkle.style.height = `${size}px`;
-
       const x = e.clientX + (Math.random() - 0.5) * 30;
       const y = e.clientY + (Math.random() - 0.5) * 30;
-      sparkle.style.left = `${x}px`;
-      sparkle.style.top = `${y}px`;
-
-      setTimeout(() => sparkle.remove(), 1000);
+      createStar(size, x, y);
     });
   </script>
 </body>
