@@ -22,6 +22,8 @@
       height: 100vh;
       text-align: center;
       overflow: hidden;
+      cursor: crosshair;
+      position: relative;
     }
 
     h1 {
@@ -29,86 +31,33 @@
       font-size: 3rem;
       margin-bottom: 1rem;
       color: #cc3366;
+      z-index: 2;
     }
 
-    .glitter-text {
-      position: relative;
-      display: inline-block;
+    .tagline {
       font-size: 1.25rem;
-      background: linear-gradient(
-        120deg,
-        #555 0%,
-        #cc3366 40%,
-        #f9a8d4 60%,
-        #555 100%
-      );
-      background-size: 200% auto;
-      background-clip: text;
-      -webkit-background-clip: text;
-      color: transparent;
-      animation: shimmer 3s ease-in-out forwards;
-      animation-delay: 0.5s;
-      opacity: 0;
+      color: #555;
+      z-index: 2;
+      position: relative;
     }
 
-    @keyframes shimmer {
-      0% {
-        background-position: 200% center;
-        opacity: 0;
-      }
-      50% {
-        opacity: 1;
-      }
-      100% {
-        background-position: 0% center;
-        opacity: 1;
-      }
-    }
-
-    /* Twinkle stars */
-    .twinkle {
+    .sparkle {
       position: absolute;
-      width: 6px;
-      height: 6px;
-      background: #fff;
-      border-radius: 50%;
-      opacity: 0.8;
-      animation: twinkle 2s infinite ease-in-out alternate;
       pointer-events: none;
+      width: 16px;
+      height: 16px;
+      animation: sparkle-fade 1s ease-out forwards;
+      transform-origin: center;
     }
 
-    .twinkle:nth-child(1) {
-      top: 45%;
-      left: 48%;
-      animation-delay: 0s;
-    }
-
-    .twinkle:nth-child(2) {
-      top: 52%;
-      left: 43%;
-      animation-delay: 1s;
-    }
-
-    .twinkle:nth-child(3) {
-      top: 48%;
-      left: 54%;
-      animation-delay: 0.5s;
-    }
-
-    .twinkle:nth-child(4) {
-      top: 51%;
-      left: 50%;
-      animation-delay: 1.5s;
-    }
-
-    @keyframes twinkle {
+    @keyframes sparkle-fade {
       0% {
-        transform: scale(0.5);
-        opacity: 0.2;
+        transform: scale(0.4) rotate(0deg);
+        opacity: 1;
       }
       100% {
-        transform: scale(1.5);
-        opacity: 1;
+        transform: scale(1.5) rotate(180deg);
+        opacity: 0;
       }
     }
   </style>
@@ -116,13 +65,33 @@
 <body>
   <div class="container">
     <h1>Joy of Orthodontics</h1>
-    <p class="glitter-text">Our smile is coming soon.</p>
-
-    <!-- Subtle twinkles -->
-    <span class="twinkle"></span>
-    <span class="twinkle"></span>
-    <span class="twinkle"></span>
-    <span class="twinkle"></span>
+    <p class="tagline">Our smile is coming soon.</p>
   </div>
+
+  <script>
+    const starSVG = `
+      <svg viewBox="0 0 24 24" fill="none">
+        <path fill="#f9a8d4" d="M12 2l2.09 6.26L20 9.27l-5 4.87L16.18 22 12 18.56 7.82 22 9 14.14 4 9.27l5.91-.99L12 2z"/>
+      </svg>
+    `;
+
+    document.addEventListener("mousemove", (e) => {
+      const sparkle = document.createElement("div");
+      sparkle.classList.add("sparkle");
+      sparkle.innerHTML = starSVG;
+      document.body.appendChild(sparkle);
+
+      const size = Math.random() * 8 + 8; // 8px to 16px
+      sparkle.style.width = `${size}px`;
+      sparkle.style.height = `${size}px`;
+
+      const x = e.clientX + (Math.random() - 0.5) * 30;
+      const y = e.clientY + (Math.random() - 0.5) * 30;
+      sparkle.style.left = `${x}px`;
+      sparkle.style.top = `${y}px`;
+
+      setTimeout(() => sparkle.remove(), 1000);
+    });
+  </script>
 </body>
 </html>
