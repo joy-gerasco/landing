@@ -51,12 +51,46 @@
       from, to { border-color: transparent }
       50% { border-color: #ccc }
     }
+    .glitter-text {
+  position: relative;
+  display: inline-block;
+  font-size: 1.25rem;
+  color: #555;
+  background: linear-gradient(
+    120deg,
+    #555 0%,
+    #cc3366 40%,
+    #f9a8d4 60%,
+    #555 100%
+  );
+  background-size: 200% auto;
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  animation: shimmer 3s ease-in-out forwards;
+  animation-delay: 0.5s;
+  opacity: 0;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 200% center;
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    background-position: 0% center;
+    opacity: 1;
+  }
+}
   </style>
 </head>
 <body>
   <div class="container">
     <h1>Joy of Orthodontics</h1>
-    <p id="animated-text">Our smile is coming soon.</p>
+      <p class="glitter-text">Our smile is coming soon.</p>
   </div>
 </body>
 </html>
