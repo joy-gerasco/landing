@@ -90,12 +90,38 @@
       }, 1000);
     }
 
+    function sparkleAt(x, y) {
+      const size = Math.random() * 8 + 8;
+      const offsetX = x + (Math.random() - 0.5) * 30;
+      const offsetY = y + (Math.random() - 0.5) * 30;
+      createStar(size, offsetX, offsetY);
+    }
+
+    // Mouse movement sparkles
     document.addEventListener("mousemove", (e) => {
-      const size = Math.random() * 8 + 8; // 8px to 16px
-      const x = e.clientX + (Math.random() - 0.5) * 30;
-      const y = e.clientY + (Math.random() - 0.5) * 30;
-      createStar(size, x, y);
+      sparkleAt(e.clientX, e.clientY);
     });
+
+    // Touch-based sparkles
+    document.addEventListener("touchmove", (e) => {
+      if (e.touches.length > 0) {
+        const touch = e.touches[0];
+        sparkleAt(touch.clientX, touch.clientY);
+      }
+    });
+
+    // Ambient sparkles on mobile (every 2s)
+    function isTouchDevice() {
+      return "ontouchstart" in window || navigator.maxTouchPoints > 0;
+    }
+
+    if (isTouchDevice()) {
+      setInterval(() => {
+        const x = Math.random() * window.innerWidth;
+        const y = Math.random() * window.innerHeight * 0.6 + window.innerHeight * 0.2;
+        sparkleAt(x, y);
+      }, 2000);
+    }
   </script>
 </body>
 </html>
