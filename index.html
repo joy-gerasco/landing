@@ -40,6 +40,7 @@
       z-index: 2;
       position: relative;
       display: inline-block;
+      white-space: pre-wrap;
     }
 
     .tagline span {
@@ -109,10 +110,10 @@
       const starCount = 25;
       for (let i = 0; i < starCount; i++) {
         const angle = Math.random() * 2 * Math.PI;
-        const distance = Math.random() * 80 + 40;
+        const distance = Math.random() * 100 + 40;
         const dx = Math.cos(angle) * distance;
         const dy = Math.sin(angle) * distance;
-        const size = Math.random() * 8 + 8;
+        const size = Math.random() * 10 + 6;
         createStar(x, y, dx, dy, size);
       }
     }
@@ -145,8 +146,9 @@
     tagline.textContent = "";
 
     for (let i = 0; i < text.length; i++) {
+      const char = text[i];
       const span = document.createElement("span");
-      span.textContent = text[i];
+      span.textContent = char;
       tagline.appendChild(span);
     }
 
@@ -173,10 +175,10 @@
     }
 
     window.onload = () => {
-      animateWave(); // Run immediately on page load
+      animateWave();
     };
 
-    setInterval(animateWave, 90000); // Repeat every 90s
+    setInterval(animateWave, 90000); // Every 90 seconds
   </script>
 </body>
 </html>
