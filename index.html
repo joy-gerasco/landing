@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Joy of Orthodontics - Coming Soon</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Lora&family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #f8f4f0;
+      font-family: 'Montserrat', sans-serif;
+      color: #333;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      text-align: center;
+      overflow: hidden;
+      cursor: crosshair;
+      position: relative;
+    }
+
+    h1 {
+      font-family: 'Lora', serif;
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      color: #cc3366;
+      z-index: 2;
+    }
+
+    .tagline {
+      font-size: 1.25rem;
+      color: #555;
+      z-index: 2;
+      position: relative;
+      display: inline-block;
+    }
+
+    .tagline span {
+      display: inline-block;
+      animation: none;
+    }
+
+    .wave span {
+      animation: wave 1s ease-out forwards;
+    }
+
+    @keyframes wave {
+      0%   { transform: translateY(0); opacity: 1; }
+      50%  { transform: translateY(-8px); opacity: 1; }
+      100% { transform: translateY(0); opacity: 1; }
+    }
+
+    .sparkle {
+      position: absolute;
+      pointer-events: none;
+      transform-origin: center;
+      animation: sparkle-fade 1s ease-out forwards;
+    }
+
+    @keyframes sparkle-fade {
+      0% {
+        opacity: 1;
+        transform: scale(0.4) translate(0, 0) rotate(0deg);
+      }
+      100% {
+        opacity: 0;
+        transform: scale(1.5) rotate(180deg);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Joy of Orthodontics</h1>
+    <p class="tagline" id="tagline">Our smile is coming soon.</p>
+  </div>
+
+  <script>
+    const svgNS = "http://www.w3.org/2000/svg";
+
+    function createStar(x, y, dx = 0, dy = 0, size = 12) {
+      const svg = document.createElementNS(svgNS, "svg");
+      svg.setAttribute("viewBox", "0 0 24 24");
+      svg.setAttribute("width", size);
+      svg.setAttribute("height", size);
+      svg.classList.add("sparkle");
+      svg.style.left = `${x}px`;
+      svg.style.top = `${y}px`;
+      svg.style.transform = `translate(${dx}px, ${dy}px)`;
+
+      const path = document.createElementNS(svgNS, "path");
+      path.setAttribute("fill", "#f9a8d4");
+      path.setAttribute("d", "M12 2l2.09 6.26L20 9.27l-5 4.87L16.18 22 12 18.56 7.82 22 9 14.14 4 9.27l5.91-.99L12 2z");
+
+      svg.appendChild(path);
+      document.body.appendChild(svg);
+
+      setTimeout(() => svg.remove(), 1000);
+    }
+
+    function burstAt(x, y) {
+      const starCount = 25;
+      for (let i = 0; i < starCount; i++) {
+        const angle = Math.random() * 2 * Math.PI;
+        const distance = Math.random() * 80 + 40;
+        const dx = Math.cos(angle) * distance;
+        const dy = Math.sin(angle) * distance;
+        const size = Math.random() * 8 + 8;
+        createStar(x, y, dx, dy, size);
+      }
+    }
+
+    // ✨ Mouse trail sparkles
+    let lastTrailTime = 0;
+    document.addEventListener("mousemove", (e) => {
+      const now = Date.now();
+      if (now - lastTrailTime > 40) {
+        createStar(e.clientX, e.clientY, 0, 0, Math.random() * 6 + 6);
+        lastTrailTime = now;
+      }
+    });
+
+    // 💥 Click or tap burst
+    document.addEventListener("click", (e) => {
+      burstAt(e.clientX, e.clientY);
+    });
+
+    document.addEventListener("touchstart", (e) => {
+      if (e.touches.length > 0) {
+        const t = e.touches[0];
+        burstAt(t.clientX, t.clientY);
+      }
+    });
+
+    // 🌊 Wave animation for tagline with sparkles
+    const tagline = document.getElementById("tagline");
+    const text = tagline.textContent;
+    tagline.textContent = "";
+
+    for (let i = 0; i < text.length; i++) {
+      const span = document.createElement("span");
+      span.textContent = text[i];
+      tagline.appendChild(span);
+    }
+
+    function animateWave() {
+      const spans = tagline.querySelectorAll("span");
+      tagline.classList.add("wave");
+      spans.forEach((span, i) => {
+        span.style.animationDelay = `${i * 0.05}s`;
+      });
+
+      const rect = tagline.getBoundingClientRect();
+      for (let i = 0; i < 8; i++) {
+        const x = rect.left + Math.random() * rect.width;
+        const y = rect.top + Math.random() * rect.height;
+        createStar(x, y, 0, 0, Math.random() * 6 + 6);
+      }
+
+      setTimeout(() => {
+        tagline.classList.remove("wave");
+        spans.forEach((span) => {
+          span.style.animationDelay = "0s";
+        });
+      }, 1500);
+    }
+
+    window.onload = () => {
+      animateWave(); // Run immediately on page load
+    };
+
+    setInterval(animateWave, 90000); // Repeat every 90s
+  </script>
+</body>
+</html>
