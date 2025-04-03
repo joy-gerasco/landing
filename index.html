@@ -63,16 +63,17 @@
       pointer-events: none;
       transform-origin: center;
       animation: sparkle-fade 1s ease-out forwards;
+      z-index: 999;
     }
 
     @keyframes sparkle-fade {
       0% {
         opacity: 1;
-        transform: scale(0.4) translate(0, 0) rotate(0deg);
+        transform: scale(0.6) translate(0, 0) rotate(0deg);
       }
       100% {
         opacity: 0;
-        transform: scale(1.5) rotate(180deg);
+        transform: scale(1.8) rotate(360deg);
       }
     }
   </style>
@@ -118,17 +119,20 @@
       }
     }
 
-    // ✨ Mouse trail sparkles
+    // ✨ Mouse trail sparkles (restored to previous beautiful version)
     let lastTrailTime = 0;
     document.addEventListener("mousemove", (e) => {
       const now = Date.now();
-      if (now - lastTrailTime > 40) {
-        createStar(e.clientX, e.clientY, 0, 0, Math.random() * 6 + 6);
+      if (now - lastTrailTime > 25) {
+        const dx = (Math.random() - 0.5) * 10;
+        const dy = (Math.random() - 0.5) * 10;
+        const size = Math.random() * 5 + 5;
+        createStar(e.clientX, e.clientY, dx, dy, size);
         lastTrailTime = now;
       }
     });
 
-    // 💥 Click or tap burst
+    // 💥 Burst on click/tap
     document.addEventListener("click", (e) => {
       burstAt(e.clientX, e.clientY);
     });
@@ -160,7 +164,7 @@
       });
 
       const rect = tagline.getBoundingClientRect();
-      for (let i = 0; i < 8; i++) {
+      for (let i = 0; i < 10; i++) {
         const x = rect.left + Math.random() * rect.width;
         const y = rect.top + Math.random() * rect.height;
         createStar(x, y, 0, 0, Math.random() * 6 + 6);
@@ -175,10 +179,10 @@
     }
 
     window.onload = () => {
-      animateWave();
+      animateWave(); // Initial wave
     };
 
-    setInterval(animateWave, 90000); // Every 90 seconds
+    setInterval(animateWave, 90000); // Repeat every 90s
   </script>
 </body>
 </html>
