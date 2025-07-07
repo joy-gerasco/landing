@@ -2,178 +2,87 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Joy of Orthodontics - Coming Soon</title>
 
   <!-- Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&family=Cormorant+Garamond:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@400;600&family=Bebas+Neue&display=swap" rel="stylesheet"/>
 
   <style>
     :root {
-      --blue: #86b3d1;
-      --mustard: #e3ad44;
-      --mint: #cbdccf;
-      --coral: #ef8f72;
-      --navy: #273b51;
+      --pink: #f57894;
+      --navy: #2c3e50;
+      --sage: #a3c6aa;
+      --yellow: #ffe8b8;
     }
 
     * {
-      box-sizing: border-box;
       margin: 0;
       padding: 0;
+      box-sizing: border-box;
     }
 
     body {
-      font-family: 'Poppins', sans-serif;
-      background: linear-gradient(to bottom right, var(--mint), #fefefe);
-      color: var(--navy);
+      background: #faf8f5;
       display: flex;
-      flex-direction: column;
-      min-height: 100vh;
-      overflow-x: hidden;
-    }
-
-    header {
-      position: sticky;
-      top: 0;
-      background-color: white;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 1rem 2rem;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-      z-index: 1000;
-    }
-
-    .logo {
-      font-weight: 700;
-      font-size: 1.5rem;
-      color: var(--navy);
-    }
-
-    nav {
-      display: flex;
-      gap: 1.5rem;
-    }
-
-    nav a {
-      text-decoration: none;
-      color: var(--navy);
-      font-weight: 500;
-      transition: color 0.3s;
-    }
-
-    nav a:hover {
-      color: var(--coral);
-    }
-
-    main {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
       justify-content: center;
-      text-align: center;
-      padding: 2rem;
+      align-items: center;
+      height: 100vh;
+      font-family: 'Poppins', sans-serif;
+      overflow: hidden;
+      position: relative;
     }
 
     h1 {
-      font-size: 2.5rem;
-      color: var(--navy);
-      margin-bottom: 1rem;
-      font-family: 'Cormorant Garamond', serif;
-      animation: fadeIn 1.2s ease-out forwards;
+      font-family: 'Dancing Script', cursive;
+      font-size: 3rem;
+      color: var(--pink);
+      position: relative;
     }
 
-    .mission {
-      font-size: 1.1rem;
-      max-width: 600px;
-      line-height: 1.6;
-      color: #444;
-      margin-bottom: 2rem;
-      animation: fadeIn 1.4s ease-out forwards;
+    .sparkle {
+      content: "";
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: -100%;
+      background: linear-gradient(120deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.5) 50%, rgba(255,255,255,0) 100%);
+      transform: skewX(-20deg);
+      animation: sparkle 1s forwards;
     }
 
-    .countdown {
-      display: flex;
-      gap: 1rem;
-      justify-content: center;
-      font-size: 1.2rem;
-      font-weight: bold;
-      color: var(--mustard);
-      animation: fadeIn 1.6s ease-out forwards;
-    }
-
-    .countdown div {
-      background-color: white;
-      padding: 0.5rem 1rem;
-      border-radius: 8px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    @media (max-width: 768px) {
-      nav {
-        gap: 1rem;
-        flex-wrap: wrap;
-        justify-content: center;
+    @keyframes sparkle {
+      0% {
+        left: -100%;
       }
-
-      .countdown {
-        flex-direction: column;
-        gap: 0.5rem;
+      100% {
+        left: 100%;
       }
     }
   </style>
 </head>
 <body>
-  <header>
-    <div class="logo">JOY</div>
-    <nav>
-      <a href="#">Home</a>
-      <a href="#">Braces</a>
-      <a href="#">Invisalign</a>
-      <a href="#">Meet the Team</a>
-      <a href="#">Contact</a>
-    </nav>
-  </header>
-  <main>
-    <h1>Joy of Orthodontics</h1>
-    <p class="mission">
-      We strive to make every person smile and feel truly cared for. Our mission is to create a space where people feel joy, belonging, and confidence throughout their orthodontic journey.
-    </p>
-    <div class="countdown" id="countdown">
-      <div><span id="days">--</span> days</div>
-      <div><span id="hours">--</span> hrs</div>
-      <div><span id="minutes">--</span> min</div>
-      <div><span id="seconds">--</span> sec</div>
-    </div>
-  </main>
+  <h1 id="comingSoon">Coming Soon</h1>
 
   <script>
-    const targetDate = new Date("2025-07-01T00:00:00").getTime();
+    function addSparkle() {
+      const text = document.getElementById('comingSoon');
+      const sparkle = document.createElement('div');
+      sparkle.classList.add('sparkle');
+      text.appendChild(sparkle);
 
-    function updateCountdown() {
-      const now = new Date().getTime();
-      const distance = targetDate - now;
-
-      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-      document.getElementById("days").innerText = days;
-      document.getElementById("hours").innerText = hours;
-      document.getElementById("minutes").innerText = minutes;
-      document.getElementById("seconds").innerText = seconds;
+      setTimeout(() => {
+        if (sparkle && sparkle.parentNode) {
+          sparkle.parentNode.removeChild(sparkle);
+        }
+      }, 1000);
     }
 
-    updateCountdown();
-    setInterval(updateCountdown, 1000);
+    window.onload = () => {
+      addSparkle();
+      setInterval(addSparkle, 15000);
+    };
   </script>
 </body>
 </html>
